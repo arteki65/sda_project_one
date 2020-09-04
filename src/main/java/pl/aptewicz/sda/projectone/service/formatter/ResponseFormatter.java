@@ -1,4 +1,4 @@
-package pl.aptewicz.sda.projectone.service.http.service.formatter;
+package pl.aptewicz.sda.projectone.service.formatter;
 
 import java.net.http.HttpResponse;
 

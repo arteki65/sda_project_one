@@ -1,6 +1,6 @@
-package pl.aptewicz.sda.projectone.service.http.service.http;
+package pl.aptewicz.sda.projectone.service.http;
 
-import pl.aptewicz.sda.projectone.service.http.service.formatter.ResponseFormatter;
+import pl.aptewicz.sda.projectone.service.formatter.ResponseFormatter;
 
 import java.io.IOException;
 import java.net.URI;

@@ -1,7 +1,7 @@
-package pl.aptewicz.sda.projectone.service.http.service.formatter;
+package pl.aptewicz.sda.projectone.service.formatter;
 
 import com.google.gson.Gson;
-import pl.aptewicz.sda.projectone.service.http.dto.PeopleInSpaceDto;
+import pl.aptewicz.sda.projectone.dto.PeopleInSpaceDto;
 
 import java.net.http.HttpResponse;
 import java.util.stream.Collectors;

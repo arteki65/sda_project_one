@@ -1,4 +1,4 @@
-package pl.aptewicz.sda.projectone.service.http.dto;
+package pl.aptewicz.sda.projectone.dto;
 
 import java.util.List;
 

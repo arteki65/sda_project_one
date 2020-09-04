@@ -3,8 +3,7 @@ package pl.aptewicz.sda.projectone.service.http;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import pl.aptewicz.sda.projectone.service.http.service.formatter.JsonResponseFormatter;
-import pl.aptewicz.sda.projectone.service.http.service.http.OpenNotifyConnector;
+import pl.aptewicz.sda.projectone.service.formatter.JsonResponseFormatter;
 
 import java.io.IOException;
 import java.net.http.HttpClient;

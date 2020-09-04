@@ -1,7 +1,7 @@
-package pl.aptewicz.sda.projectone.service.http;
+package pl.aptewicz.sda.projectone;
 
-import pl.aptewicz.sda.projectone.service.http.service.formatter.JsonResponseFormatter;
-import pl.aptewicz.sda.projectone.service.http.service.http.OpenNotifyConnector;
+import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
+import pl.aptewicz.sda.projectone.service.formatter.JsonResponseFormatter;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
