@@ -24,7 +24,7 @@ public class OpenNotifyConnector {
 
     public String getPeopleInSpace() {
         try {
-            final var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return responseFormatter.formatResponse(response);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

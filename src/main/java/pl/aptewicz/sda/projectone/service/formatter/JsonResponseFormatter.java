@@ -12,8 +12,8 @@ public class JsonResponseFormatter implements ResponseFormatter {
 
     @Override
     public String formatResponse(HttpResponse<String> response) {
-        final var json = response.body();
-        final var peopleInSpace = gson.fromJson(json, PeopleInSpaceDto.class);
+        final String json = response.body();
+        final PeopleInSpaceDto peopleInSpace = gson.fromJson(json, PeopleInSpaceDto.class);
         return String.format("Currently there are %d people in space:\n%s", peopleInSpace.getNumber(),
                 peopleInSpace.getPeople().stream()
                         .map(humanInSpace -> humanInSpace.getName() + " on craft " + humanInSpace.getCraft() + "\n")

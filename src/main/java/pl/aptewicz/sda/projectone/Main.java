@@ -1,7 +1,11 @@
 package pl.aptewicz.sda.projectone;
 
+import pl.aptewicz.sda.projectone.dto.IssSpeedDto;
+import pl.aptewicz.sda.projectone.service.formatter.JsonSpeedFormatter;
+import pl.aptewicz.sda.projectone.service.formatter.SpeedResponseFormatter;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.formatter.JsonResponseFormatter;
+import pl.aptewicz.sda.projectone.service.http.SpeedOpenNotifyConnector;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -15,7 +19,21 @@ public class Main {
         System.out.println("Hello javaLon4");
 
         //        final var openNotifyConnector = new OpenNotifyConnector(HttpResponse::body, httpClient);
-        final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
+        final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
         System.out.println(openNotifyConnector.getPeopleInSpace());
+
+        final SpeedOpenNotifyConnector speedOpenNotifyConnector =
+                new SpeedOpenNotifyConnector(new JsonSpeedFormatter(), httpClient);
+
+        String speedDto = speedOpenNotifyConnector.getSpeed();
+        System.out.println(speedDto);
+        //System.out.println(speedDto.getTimestamp());
+        //System.out.println(speedDto.getIssPosition().getLongitude());
+
+
+
+
+
+
     }
 }
