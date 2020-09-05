@@ -65,7 +65,7 @@ public class Main {
 
     private static void showUnknownOperationInfo(String chosenOption) {
         final var unknownOperationInfo =
-                String.format("\"%s\" option is unknown. Please specify one of the menu " + "options!", chosenOption);
+                String.format("\"%s\" option is unknown. Please specify one of the menu options!", chosenOption);
         System.out.println(unknownOperationInfo);
     }
 }
