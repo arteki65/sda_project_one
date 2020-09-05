@@ -22,11 +22,11 @@ public class Main {
             switch (chosenOption) {
                 case "1":
                     showPeopleInSpace();
-                    waitForUserInteraction();
+                    waitForUserAcknowledge();
                     break;
                 case "2":
                     showCurrentLocationOfISS();
-                    waitForUserInteraction();
+                    waitForUserAcknowledge();
                     break;
                 case "3":
                     programRunning = false;
@@ -49,7 +49,7 @@ public class Main {
         System.out.println(menu);
     }
 
-    private static void waitForUserInteraction() {
+    private static void waitForUserAcknowledge() {
         System.out.println("Press any key to continue...");
         keyboardScanner.nextLine();
     }
