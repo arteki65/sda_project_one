@@ -1,7 +1,10 @@
 package pl.aptewicz.sda.projectone;
 
-import pl.aptewicz.sda.projectone.service.formatter.JsonResponseFormatter;
+import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
+import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
+import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
+import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -9,8 +12,18 @@ import java.util.Scanner;
 
 public class Main {
 
+    // Creation of required objects - this can be done by frameworks like Spring or Guice
     private static final HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
+
+    private static final JsonMapper jsonMapper = new GsonJsonMapper();
+
+    private static final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
+
+    private static final PeopleInSpaceDtoViewMapper peopleInSpaceDtoViewMapper = new PeopleInSpaceDtoViewMapper();
+
+    private static final PeopleInSpaceController peopleInSpaceController =
+            new PeopleInSpaceController(openNotifyConnector, peopleInSpaceDtoViewMapper);
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
@@ -60,8 +73,12 @@ public class Main {
     }
 
     private static void showPeopleInSpace() {
-        final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
-        System.out.println(openNotifyConnector.getPeopleInSpace());
+        try {
+            final var peopleInSpaceInfo = peopleInSpaceController.getPeopleInSpaceInfo();
+            System.out.println(peopleInSpaceInfo);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void showCurrentLocationOfISS() {

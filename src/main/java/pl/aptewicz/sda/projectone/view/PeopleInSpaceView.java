@@ -13,7 +13,7 @@ public class PeopleInSpaceView {
         this.people = people;
     }
 
-    public String showInfoAboutPeopleInSpace() {
+    public String getInfoAboutPeopleInSpace() {
         return String.format("Currently there are %d people in space:\n%s", this.number, this.people.stream()
                 .map(humanInSpace -> humanInSpace.getName() + " on craft " + humanInSpace.getCraft() + "\n")
                 .collect(Collectors.joining()));
@@ -24,7 +24,7 @@ public class PeopleInSpaceView {
 
         private final String name;
 
-        HumanInSpaceView(String craft, String name) {
+        public HumanInSpaceView(String craft, String name) {
             this.craft = craft;
             this.name = name;
         }
