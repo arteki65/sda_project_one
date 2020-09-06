@@ -32,7 +32,7 @@ public class PeopleInSpaceDto {
         private final String name;
 
         @JsonCreator
-        HumanInSpace(@JsonProperty("craft") String craft, @JsonProperty("name") String name) {
+        public HumanInSpace(@JsonProperty("craft") String craft, @JsonProperty("name") String name) {
             this.craft = craft;
             this.name = name;
         }
