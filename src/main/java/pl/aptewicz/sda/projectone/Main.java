@@ -15,6 +15,7 @@ public class Main {
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        showAppTitle();
         var programRunning = true;
         while (programRunning) {
             showMenu();
@@ -38,10 +39,14 @@ public class Main {
         }
     }
 
+    private static void showAppTitle() {
+        final var appTitle = "\"SDA javaLon4 project one!";
+        System.out.println(appTitle);
+    }
+
     private static void showMenu() {
         // @formatter:off
-        final var menu = "SDA javaLon4 project one!\n" +
-                "Choose menu option:\n" +
+        final var menu = "Choose menu option:\n" +
                 "1 - show people in space\n" +
                 "2 - show current location of ISS\n" +
                 "3 - exit";
