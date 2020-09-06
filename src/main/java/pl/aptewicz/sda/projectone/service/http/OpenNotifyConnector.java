@@ -13,6 +13,9 @@ public class OpenNotifyConnector {
     private static final HttpRequest request =
             HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/astros.json")).build();
 
+    private static final HttpRequest request2 =
+            HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/iss-now.json")).build();
+
     private final ResponseFormatter responseFormatter;
 
     private final HttpClient httpClient;
@@ -29,6 +32,15 @@ public class OpenNotifyConnector {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return "Error while getting people in space...";
+        }
+    }
+    public String getCurrentLocation() {
+        try {
+            final var response = httpClient.send(request2, HttpResponse.BodyHandlers.ofString());
+            return responseFormatter.formatResponseTwo(response);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return "Error while getting current location...";
         }
     }
 }
