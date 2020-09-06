@@ -37,7 +37,7 @@ public class OpenNotifyConnector {
     public String getIssPosition() {
         try {
             final var response2 = httpClient.send(request2, HttpResponse.BodyHandlers.ofString());
-            return responseFormatter.formatResponse(response2);
+            return responseFormatter.formatIssPosition(response2);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return "Error while getting ISS current position...";

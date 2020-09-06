@@ -1,13 +1,14 @@
 package pl.aptewicz.sda.projectone.dto;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 public class IssPositionDto {
 
-    private final List<IssPosition> issPosition;
+    @SerializedName("iss_position")
+    private final IssPosition issPosition;
     private final long timestamp;
 
-    public IssPositionDto(List<IssPosition> issPosition, long timestamp) {
+    public IssPositionDto(IssPosition issPosition, long timestamp) {
         this.issPosition = issPosition;
         this.timestamp = timestamp;
     }
@@ -17,10 +18,9 @@ public class IssPositionDto {
         return timestamp;
     }
 
-    public List<IssPosition> getIssPosition() {
+    public IssPosition getIssPosition() {
         return issPosition;
     }
-
 
     public static class IssPosition {
         private final double longitude;
