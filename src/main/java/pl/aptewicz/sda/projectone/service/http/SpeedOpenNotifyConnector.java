@@ -29,13 +29,15 @@ public class SpeedOpenNotifyConnector {
         this.httpClient = httpClient;
     }
 
-    public String getSpeed() {
+    public String getSpeed() throws InterruptedException {
+
+
 
         IssSpeedDto measurement1 = getIssSpeedDto();
         Double longitude1 = measurement1.getIssPosition().getLongitude();
         Double latitude1 = measurement1.getIssPosition().getLatitude();
         Long timestamp1 = measurement1.getTimestamp();
-
+        TimeUnit.SECONDS.sleep(5);
 
         IssSpeedDto measurement2 = getIssSpeedDto();
         Double longitude2 = measurement2.getIssPosition().getLongitude();

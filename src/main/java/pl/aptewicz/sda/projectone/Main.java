@@ -15,7 +15,7 @@ public class Main {
     private static final HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello javaLon4");
 
         //        final var openNotifyConnector = new OpenNotifyConnector(HttpResponse::body, httpClient);
