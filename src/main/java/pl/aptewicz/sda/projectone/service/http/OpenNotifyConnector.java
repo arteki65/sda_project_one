@@ -30,7 +30,7 @@ public class OpenNotifyConnector {
         try {
             final var response = httpClient.send(getPeopleInSpaceRequest, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                return Optional.of(jsonMapper.mapFromJson(response.body()));
+                return Optional.ofNullable(jsonMapper.mapFromJson(response.body()));
             }
             return Optional.empty();
         } catch (IOException | InterruptedException e) {

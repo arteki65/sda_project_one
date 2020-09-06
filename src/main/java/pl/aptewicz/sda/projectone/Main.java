@@ -3,6 +3,7 @@ package pl.aptewicz.sda.projectone;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
+import pl.aptewicz.sda.projectone.service.mapper.JacksonJsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
 
@@ -16,7 +17,7 @@ public class Main {
     private static final HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
-    private static final JsonMapper jsonMapper = new GsonJsonMapper();
+        private static final JsonMapper jsonMapper = new GsonJsonMapper();
 
     private static final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
 

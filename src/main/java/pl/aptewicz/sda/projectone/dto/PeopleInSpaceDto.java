@@ -1,13 +1,19 @@
 package pl.aptewicz.sda.projectone.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PeopleInSpaceDto {
     private final int number;
 
     private final List<HumanInSpace> people;
 
-    public PeopleInSpaceDto(int number, List<HumanInSpace> people) {
+    @JsonCreator
+    public PeopleInSpaceDto(@JsonProperty("number") int number, @JsonProperty("people") List<HumanInSpace> people) {
         this.number = number;
         this.people = people;
     }
@@ -25,7 +31,8 @@ public class PeopleInSpaceDto {
 
         private final String name;
 
-        HumanInSpace(String craft, String name) {
+        @JsonCreator
+        HumanInSpace(@JsonProperty("craft") String craft, @JsonProperty("name") String name) {
             this.craft = craft;
             this.name = name;
         }
