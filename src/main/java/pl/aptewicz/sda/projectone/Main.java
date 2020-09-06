@@ -62,6 +62,7 @@ public class Main {
     private static void showPeopleInSpace() {
         final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
         System.out.println(openNotifyConnector.getPeopleInSpace());
+        System.out.println(openNotifyConnector.getIssPosition());
     }
 
     private static void showCurrentLocationOfISS() {
