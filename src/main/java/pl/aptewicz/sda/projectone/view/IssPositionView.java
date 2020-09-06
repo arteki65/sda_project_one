@@ -13,7 +13,7 @@ public class IssPositionView {
         this.timestamp = timestamp;
         this.issPositionView = issPositionView;
     }
-    public String showInfoAboutPeopleInSpace() {
+    public String showIssLocation() {
         return String.format("Currently the ISS is  %d :\n%s", this.timestamp, this.issPositionView.stream()
                 .map(issCurrentPositionView -> issCurrentPositionView.getLatitude() + " on longitude" + issCurrentPositionView.getLongitude() + "\n")
                 .collect(Collectors.joining()));

@@ -30,4 +30,22 @@ public class PeopleInSpaceControllerTest {
         // then
         Assertions.assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void shouldThrowExceptionWhenConnectorReturnsNoData() {
+        // given
+        final var mockConnector = Mockito.mock(OpenNotifyConnector.class);
+        Mockito.when(mockConnector.getPeopleInSpace()).thenReturn(Optional.empty());
+
+        final var controller = new PeopleInSpaceController(mockConnector, new PeopleInSpaceDtoViewMapper());
+
+        // when
+        try {
+            controller.getPeopleInSpaceInfo();
+        } catch (Exception e) {
+            Assertions.assertTrue(true);
+            return;
+        }
+        Assertions.fail();
+    }
 }

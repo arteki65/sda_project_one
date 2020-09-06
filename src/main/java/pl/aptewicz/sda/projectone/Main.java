@@ -1,9 +1,10 @@
 package pl.aptewicz.sda.projectone;
 
+import pl.aptewicz.sda.projectone.controller.IssPositionController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
-import pl.aptewicz.sda.projectone.service.mapper.JacksonJsonMapper;
+import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
 
@@ -17,7 +18,7 @@ public class Main {
     private static final HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
-        private static final JsonMapper jsonMapper = new GsonJsonMapper();
+    private static final JsonMapper jsonMapper = new GsonJsonMapper();
 
     private static final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
 
@@ -25,6 +26,11 @@ public class Main {
 
     private static final PeopleInSpaceController peopleInSpaceController =
             new PeopleInSpaceController(openNotifyConnector, peopleInSpaceDtoViewMapper);
+
+    private static final IssPositionDtoViewMapper issPositionDtoViewMapper = new IssPositionDtoViewMapper();
+
+    private static final IssPositionController issPositionController =
+            new IssPositionController(openNotifyConnector, issPositionDtoViewMapper);
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
@@ -83,8 +89,8 @@ public class Main {
     }
 
     private static void showCurrentLocationOfISS() {
-        final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
-        System.out.println(openNotifyConnector.getIssPosition());
+        final var issPositionView = issPositionController.getIssPositionView();
+        System.out.println(issPositionView.showIssLocation());
     }
 
     private static void showUnknownOperationInfo(String chosenOption) {

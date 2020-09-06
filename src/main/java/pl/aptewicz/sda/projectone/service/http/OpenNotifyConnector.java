@@ -1,5 +1,6 @@
 package pl.aptewicz.sda.projectone.service.http;
 
+import pl.aptewicz.sda.projectone.dto.IssPositionDto;
 import pl.aptewicz.sda.projectone.dto.PeopleInSpaceDto;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 
@@ -30,22 +31,22 @@ public class OpenNotifyConnector {
         try {
             final var response = httpClient.send(getPeopleInSpaceRequest, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                return Optional.ofNullable(jsonMapper.mapFromJson(response.body()));
+                return Optional.ofNullable(jsonMapper.mapPeopleInSpaceFromJson(response.body()));
             }
             return Optional.empty();
         } catch (IOException | InterruptedException e) {
-            // TODO: add logging of exception
+            // add logging of exception
             return Optional.empty();
         }
     }
 
-    public String getIssPosition() {
+    public Optional<IssPositionDto> getIssPosition() {
         try {
             final var response2 = httpClient.send(request2, HttpResponse.BodyHandlers.ofString());
-            return responseFormatter.formatIssPosition(response2);
+            // TODO: add response status code check like above
+            return Optional.ofNullable(jsonMapper.mapIssPositionDtoFromJson(response2.body()));
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return "Error while getting ISS current position...";
+            return Optional.empty();
         }
     }
 
