@@ -2,6 +2,7 @@ package pl.aptewicz.sda.projectone.controller;
 
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
+import pl.aptewicz.sda.projectone.view.PeopleInSpaceView;
 
 public class PeopleInSpaceController {
 
@@ -14,10 +15,9 @@ public class PeopleInSpaceController {
         this.dtoViewMapper = dtoViewMapper;
     }
 
-    public String getPeopleInSpaceInfo() throws Exception {
+    public PeopleInSpaceView getPeopleInSpaceInfo() throws Exception {
         final var result = this.openNotifyConnector.getPeopleInSpace();
-        final var view = result.map(dtoViewMapper::mapDtoToView)
+        return result.map(dtoViewMapper::mapDtoToView)
                 .orElseThrow(() -> new Exception("Unable to get info about people in space."));
-        return view.getInfoAboutPeopleInSpace();
     }
 }

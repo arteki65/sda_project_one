@@ -76,7 +76,7 @@ public class Main {
     private static void showPeopleInSpace() {
         try {
             final var peopleInSpaceInfo = peopleInSpaceController.getPeopleInSpaceInfo();
-            System.out.println(peopleInSpaceInfo);
+            System.out.println(peopleInSpaceInfo.getInfoAboutPeopleInSpace());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

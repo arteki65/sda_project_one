@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import pl.aptewicz.sda.projectone.dto.PeopleInSpaceDto;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
+import pl.aptewicz.sda.projectone.view.PeopleInSpaceView;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -20,7 +21,8 @@ public class PeopleInSpaceControllerTest {
                 Collections.singletonList(new PeopleInSpaceDto.HumanInSpace("ISS", "test name")))));
 
         final var controller = new PeopleInSpaceController(mockConnector, new PeopleInSpaceDtoViewMapper());
-        final var expectedResult = "Currently  there are 1 people in space:\n" + "test name on craft ISS\n";
+        final var expectedResult = new PeopleInSpaceView(1,
+                Collections.singletonList(new PeopleInSpaceView.HumanInSpaceView("ISS", "test name")));
 
         // when
         final var result = controller.getPeopleInSpaceInfo();
