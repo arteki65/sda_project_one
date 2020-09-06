@@ -12,7 +12,7 @@ public class Main {
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
     public static void main(String[] args) {
-        System.out.println("Hello javaLon4");
+        System.out.println("Hello javaLon4\nHello All");
 
         //        final var openNotifyConnector = new OpenNotifyConnector(HttpResponse::body, httpClient);
         final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
