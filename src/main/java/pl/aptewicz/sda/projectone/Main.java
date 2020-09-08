@@ -2,6 +2,9 @@ package pl.aptewicz.sda.projectone;
 
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
+import pl.aptewicz.sda.projectone.dto.IssSpeedDto;
+import pl.aptewicz.sda.projectone.service.formatter.JsonSpeedFormatter;
+import pl.aptewicz.sda.projectone.service.formatter.SpeedResponseFormatter;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
