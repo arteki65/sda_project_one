@@ -3,10 +3,7 @@ package pl.aptewicz.sda.projectone;
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
-import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
-import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
-import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
-import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
+import pl.aptewicz.sda.projectone.service.mapper.*;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -15,10 +12,11 @@ import java.util.Scanner;
 public class Main {
 
     // Creation of required objects - this can be done by frameworks like Spring or Guice
-    private static final HttpClient httpClient =
-            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
-
-    private static final JsonMapper jsonMapper = new GsonJsonMapper();
+//    private static final HttpClient httpClient =
+//            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
+    //private static final JsonMapper jsonMapper = new GsonJsonMapper();
+    private static final JsonMapper jsonMapper = new JacksonJsonMapper();
 
     private static final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
 

@@ -15,13 +15,18 @@ public class JacksonJsonMapper implements JsonMapper {
             return this.objectMapper.readValue(json, PeopleInSpaceDto.class);
         } catch (JsonProcessingException e) {
             // log exception
-            return null;
+            throw new UnsupportedOperationException();
         }
     }
 
     @Override
     public IssPositionDto mapIssPositionDtoFromJson(String json) {
-        // TODO: implement mapping from jso to dot using Jackson lib
-        throw new UnsupportedOperationException();
+        // ODO: implement mapping from jso to dot using Jackson lib
+        try {
+            return  this.objectMapper.readValue(json,IssPositionDto.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException();
+        }
     }
 }

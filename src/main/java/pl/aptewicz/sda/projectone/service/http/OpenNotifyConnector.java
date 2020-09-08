@@ -43,8 +43,12 @@ public class OpenNotifyConnector {
     public Optional<IssPositionDto> getIssPosition() {
         try {
             final var response2 = httpClient.send(request2, HttpResponse.BodyHandlers.ofString());
-            // TODO: add response status code check like above
-            return Optional.ofNullable(jsonMapper.mapIssPositionDtoFromJson(response2.body()));
+            // ODO: add response status code check like above
+            if(response2.statusCode() == 200){
+                return Optional.ofNullable(jsonMapper.mapIssPositionDtoFromJson(response2.body()));
+            }else
+                return Optional.empty();
+
         } catch (IOException | InterruptedException e) {
             return Optional.empty();
         }

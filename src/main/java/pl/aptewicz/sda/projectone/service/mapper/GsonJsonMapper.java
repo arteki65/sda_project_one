@@ -14,7 +14,12 @@ public class GsonJsonMapper implements JsonMapper {
 
     @Override
     public IssPositionDto mapIssPositionDtoFromJson(String json) {
-        // TODO: implement mapping from jso to dot using Gson lib
-        throw new UnsupportedOperationException();
+        // ODO: implement mapping from jso to dot using Gson lib
+        try{
+            return gson.fromJson(json,IssPositionDto.class);
+        }catch (Exception e){
+            throw new UnsupportedOperationException();
+        }
+
     }
 }

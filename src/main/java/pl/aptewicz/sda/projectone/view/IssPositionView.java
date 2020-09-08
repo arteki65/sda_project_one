@@ -7,16 +7,15 @@ public class IssPositionView {
 
     private final long timestamp;
 
-    private final List<IssCurrentPositionView> issPositionView;
+    private final IssCurrentPositionView issPositionView;
 
-    public IssPositionView(long timestamp, List<IssCurrentPositionView> issPositionView) {
+    public IssPositionView(long timestamp, IssCurrentPositionView issPositionView) {
         this.timestamp = timestamp;
         this.issPositionView = issPositionView;
     }
     public String showIssLocation() {
-        return String.format("Currently the ISS is  %d :\n%s", this.timestamp, this.issPositionView.stream()
-                .map(issCurrentPositionView -> issCurrentPositionView.getLatitude() + " on longitude" + issCurrentPositionView.getLongitude() + "\n")
-                .collect(Collectors.joining()));
+        return String.format("Currently the ISS is: \n  timestamp :  %d \n  on longitude:  %s ", this.timestamp, this.issPositionView.getLongitude()
+                 + "\n  on latitude :  " + this.issPositionView.getLatitude() + "");
     }
 
     public static class IssCurrentPositionView {
