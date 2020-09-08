@@ -1,8 +1,11 @@
 package pl.aptewicz.sda.projectone.controller;
 
+import pl.aptewicz.sda.projectone.dto.IssPositionDto;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.view.IssPositionView;
+
+import java.util.Optional;
 
 public class IssPositionController {
 
@@ -15,8 +18,9 @@ public class IssPositionController {
         this.mapper = mapper;
     }
 
-    public IssPositionView getIssPositionView() {
-        // TODO: implement method like in PeopleInSpaceController
-        throw new UnsupportedOperationException();
+    public IssPositionView getIssPositionView() throws Exception {
+        final Optional<IssPositionDto>  issPositionDto = openNotifyConnector.getIssPosition();
+
+        return mapper.mapToView(issPositionDto.orElseThrow(() -> new Exception("Can get current Position")));
     }
 }

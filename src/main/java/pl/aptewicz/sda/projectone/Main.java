@@ -7,6 +7,7 @@ import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
+import pl.aptewicz.sda.projectone.view.IssPositionView;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -89,8 +90,15 @@ public class Main {
     }
 
     private static void showCurrentLocationOfISS() {
-        final var issPositionView = issPositionController.getIssPositionView();
-        System.out.println(issPositionView.showIssLocation());
+        final IssPositionView issPositionView;
+        try {
+            issPositionView = issPositionController.getIssPositionView();
+            System.out.println(issPositionView.showIssLocation());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        }
+
     }
 
     private static void showUnknownOperationInfo(String chosenOption) {

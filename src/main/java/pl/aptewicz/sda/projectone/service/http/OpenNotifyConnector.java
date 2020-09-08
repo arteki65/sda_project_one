@@ -15,7 +15,7 @@ public class OpenNotifyConnector {
 
     private static final HttpRequest getPeopleInSpaceRequest =
             HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/astros.json")).build();
-    private static final HttpRequest request2 =
+    private static final HttpRequest getIssPositionRequest =
             HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/iss-now.json")).build();
 
     private final HttpClient httpClient;
@@ -42,9 +42,11 @@ public class OpenNotifyConnector {
 
     public Optional<IssPositionDto> getIssPosition() {
         try {
-            final var response2 = httpClient.send(request2, HttpResponse.BodyHandlers.ofString());
-            // TODO: add response status code check like above
-            return Optional.ofNullable(jsonMapper.mapIssPositionDtoFromJson(response2.body()));
+            final var response2 = httpClient.send(getIssPositionRequest, HttpResponse.BodyHandlers.ofString());
+            if (response2.statusCode() == 200) {
+                return Optional.ofNullable(jsonMapper.mapIssPositionDtoFromJson(response2.body()));
+            }
+            return Optional.empty();
         } catch (IOException | InterruptedException e) {
             return Optional.empty();
         }
