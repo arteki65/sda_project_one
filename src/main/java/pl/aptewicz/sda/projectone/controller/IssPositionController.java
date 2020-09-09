@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public class IssPositionController {
 
-    private final OpenNotifyConnector openNotifyConnector;
+    protected final OpenNotifyConnector openNotifyConnector;
 
-    private final IssPositionDtoViewMapper mapper;
+    protected final IssPositionDtoViewMapper mapper;
 
     public IssPositionController(OpenNotifyConnector openNotifyConnector, IssPositionDtoViewMapper mapper) {
         this.openNotifyConnector = openNotifyConnector;

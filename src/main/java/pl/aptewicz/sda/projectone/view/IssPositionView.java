@@ -15,7 +15,15 @@ public class IssPositionView {
     }
     public String showIssLocation() {
         return String.format("Currently the ISS is  %d : longitude: %f, latitude: %f", this.timestamp, this.issCurrentPositionView.getLongitude(),
-                this.issCurrentPositionView.latitude);
+                this.issCurrentPositionView.getLatitude());
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public IssCurrentPositionView getIssCurrentPositionView() {
+        return issCurrentPositionView;
     }
 
     public static class IssCurrentPositionView {

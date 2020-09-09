@@ -1,6 +1,7 @@
 package pl.aptewicz.sda.projectone;
 
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
+import pl.aptewicz.sda.projectone.controller.IssSpeedController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.dto.IssSpeedDto;
 import pl.aptewicz.sda.projectone.service.formatter.JsonSpeedFormatter;
@@ -11,6 +12,7 @@ import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
 import pl.aptewicz.sda.projectone.view.IssPositionView;
+import pl.aptewicz.sda.projectone.view.IssSpeedView;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -54,6 +56,9 @@ public class Main {
                     waitForUserAcknowledge();
                     break;
                 case "3":
+                    showCurrentISSSpeed();
+                    waitForUserAcknowledge();
+                case "4":
                     programRunning = false;
                     System.out.println("Good bye!");
                     break;
@@ -73,7 +78,8 @@ public class Main {
         final var menu = "Choose menu option:\n" +
                 "1 - show people in space\n" +
                 "2 - show current location of ISS\n" +
-                "3 - exit";
+                "3 - show the current ISS speed\n" +
+                "4 - exit";
         // @formatter:on
         System.out.println(menu);
     }
@@ -93,14 +99,19 @@ public class Main {
     }
 
     private static void showCurrentLocationOfISS() {
-        final IssPositionView issPositionView;
         try {
-            issPositionView = issPositionController.getIssPositionView();
+            final IssPositionView issPositionView = issPositionController.getIssPositionView();
             System.out.println(issPositionView.showIssLocation());
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
         }
+
+    }
+
+    private static void showCurrentISSSpeed() {
+
+   // final IssSpeedView issSpeedView = IssSpeedController
 
     }
 
