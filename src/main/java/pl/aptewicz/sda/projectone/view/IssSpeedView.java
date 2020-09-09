@@ -1,15 +1,13 @@
 package pl.aptewicz.sda.projectone.view;
 
-import pl.aptewicz.sda.projectone.dto.IssSpeedDto;
 
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class IssSpeedView {
 
-    private List<IssPositionView> positions;
+    private final List<IssPositionView> positions;
 
     public IssSpeedView(List<IssPositionView> positions) {
         this.positions = positions;
@@ -19,23 +17,20 @@ public class IssSpeedView {
 
         double longitude1 = positions.get(0).getIssCurrentPositionView().getLongitude();
         double latitude1 = positions.get(0).getIssCurrentPositionView().getLatitude();
-        long timestamp1 = positions.get(0).getTimestamp();
-       // TimeUnit.SECONDS.sleep(5);
+        LocalDateTime timestamp1 = positions.get(0).getTimestamp();
+
         double longitude2 = positions.get(1).getIssCurrentPositionView().getLongitude();
         double latitude2 = positions.get(1).getIssCurrentPositionView().getLatitude();
-        long timestamp2 = positions.get(1).getTimestamp();
+        LocalDateTime timestamp2 = positions.get(1).getTimestamp();
 
 
-        Instant one = Instant.ofEpochSecond(timestamp1);
-        Instant two = Instant.ofEpochSecond(timestamp2);
-        Duration duration = Duration.between(one, two);
-        long timeElapsed = duration.getSeconds();
+        long timeElapsed = Duration.between(timestamp1, timestamp2).getSeconds();
         double distance = haversine(latitude1, longitude1, latitude2, longitude2);
 
-        double speed = distance / timeElapsed;
+        double speed = (distance / timeElapsed) * 3600;
 
 
-        return String.format("Average speed is %f ", speed);
+        return String.format("The current average ISS speed is %.2f km/h", speed);
 
     }
 

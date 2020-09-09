@@ -1,5 +1,8 @@
 package pl.aptewicz.sda.projectone.view;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,12 +17,14 @@ public class IssPositionView {
         this.issCurrentPositionView = issPositionView;
     }
     public String showIssLocation() {
-        return String.format("Currently the ISS is  %d : longitude: %f, latitude: %f", this.timestamp, this.issCurrentPositionView.getLongitude(),
+        return String.format("%s - Currently the ISS is located at longitude: %f and latitude: %f", getTimestamp(),
+                this.issCurrentPositionView.getLongitude(),
                 this.issCurrentPositionView.getLatitude());
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public LocalDateTime getTimestamp() {
+
+        return  LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneId.systemDefault());
     }
 
     public IssCurrentPositionView getIssCurrentPositionView() {

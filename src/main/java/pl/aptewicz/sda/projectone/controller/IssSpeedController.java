@@ -5,6 +5,7 @@ import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.view.IssPositionView;
 import pl.aptewicz.sda.projectone.view.IssSpeedView;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -17,12 +18,10 @@ public class IssSpeedController extends IssPositionController{
 
     public IssSpeedView getIssSpeedView() throws Exception {
 
-        IssPositionView issPositionView1 = mapper.mapToView(openNotifyConnector.getIssPosition().orElseThrow(() -> new Exception("Error")));
-
+        IssPositionView issPositionView1 = getIssPositionView();
         TimeUnit.SECONDS.sleep(5);
+        IssPositionView issPositionView2 = getIssPositionView();
 
-        IssPositionView issPositionView2 = mapper.mapToView(openNotifyConnector.getIssPosition().orElseThrow(() -> new Exception("Error")));
-
-        return IssSpeedView()
+        return new IssSpeedView(Arrays.asList(issPositionView1,issPositionView2));
     }
 }

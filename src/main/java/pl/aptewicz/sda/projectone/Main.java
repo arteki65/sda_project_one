@@ -3,9 +3,6 @@ package pl.aptewicz.sda.projectone;
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
 import pl.aptewicz.sda.projectone.controller.IssSpeedController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
-import pl.aptewicz.sda.projectone.dto.IssSpeedDto;
-import pl.aptewicz.sda.projectone.service.formatter.JsonSpeedFormatter;
-import pl.aptewicz.sda.projectone.service.formatter.SpeedResponseFormatter;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
@@ -38,6 +35,9 @@ public class Main {
     private static final IssPositionController issPositionController =
             new IssPositionController(openNotifyConnector, issPositionDtoViewMapper);
 
+    private static final IssSpeedController issSpeedController = new IssSpeedController(openNotifyConnector,
+            issPositionDtoViewMapper);
+
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -58,6 +58,7 @@ public class Main {
                 case "3":
                     showCurrentISSSpeed();
                     waitForUserAcknowledge();
+                    break;
                 case "4":
                     programRunning = false;
                     System.out.println("Good bye!");
@@ -111,7 +112,12 @@ public class Main {
 
     private static void showCurrentISSSpeed() {
 
-   // final IssSpeedView issSpeedView = IssSpeedController
+        try {
+            final IssSpeedView issSpeedView = issSpeedController.getIssSpeedView();
+            System.out.println(issSpeedView.showISSSpeed());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
