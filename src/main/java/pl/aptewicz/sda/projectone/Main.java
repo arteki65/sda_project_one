@@ -1,8 +1,16 @@
 package pl.aptewicz.sda.projectone;
 
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.ParseException;
+import pl.aptewicz.sda.projectone.config.AppConfig;
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
 import pl.aptewicz.sda.projectone.controller.IssSpeedController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
+import pl.aptewicz.sda.projectone.db.DBSetup;
+import pl.aptewicz.sda.projectone.repository.HumanInSpaceMySqlRepository;
+import pl.aptewicz.sda.projectone.repository.HumanInSpaceRepository;
+import pl.aptewicz.sda.projectone.service.PeopleInSpaceService;
+import pl.aptewicz.sda.projectone.service.cli.CliArgsParser;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
@@ -10,14 +18,22 @@ import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
 import pl.aptewicz.sda.projectone.view.IssPositionView;
 import pl.aptewicz.sda.projectone.view.IssSpeedView;
+import pl.aptewicz.sda.projectone.service.logger.LoggerService;
+import pl.aptewicz.sda.projectone.service.mapper.HumanInSpaceEntityMapper;
 
 import java.net.http.HttpClient;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Scanner;
 
+import static pl.aptewicz.sda.projectone.config.CliUsageConfig.CLI_OPTIONS;
+
 public class Main {
 
+    // @formatter:off
     // Creation of required objects - this can be done by frameworks like Spring or Guice
+    private static final LoggerService loggerService = new LoggerService();
+
     private static final HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
@@ -27,8 +43,7 @@ public class Main {
 
     private static final PeopleInSpaceDtoViewMapper peopleInSpaceDtoViewMapper = new PeopleInSpaceDtoViewMapper();
 
-    private static final PeopleInSpaceController peopleInSpaceController =
-            new PeopleInSpaceController(openNotifyConnector, peopleInSpaceDtoViewMapper);
+    private static final HumanInSpaceEntityMapper humanInSpaceEntityMapper = new HumanInSpaceEntityMapper();
 
     private static final IssPositionDtoViewMapper issPositionDtoViewMapper = new IssPositionDtoViewMapper();
 
@@ -40,7 +55,22 @@ public class Main {
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
+    private static final CliArgsParser cliArgsParser = new CliArgsParser();
+
+    private static DBSetup dbSetup;
+
+    private static HumanInSpaceRepository humanInSpaceRepository;
+
+    private static PeopleInSpaceService peopleInSpaceService;
+
+    private static PeopleInSpaceController peopleInSpaceController;
+
+    private static AppConfig appConfig;
+    // @formatter:on
+
     public static void main(String[] args) {
+        initAppConfig(args);
+        initDb();
         showAppTitle();
         var programRunning = true;
         while (programRunning) {
@@ -61,11 +91,39 @@ public class Main {
                     break;
                 case "4":
                     programRunning = false;
+                    dbSetup.closeDbConnection();
                     System.out.println("Good bye!");
                     break;
                 default:
                     showUnknownOperationInfo(chosenOption);
             }
+        }
+    }
+
+    private static void initAppConfig(String[] args) {
+        try {
+            appConfig = cliArgsParser.parseAppConfig(args);
+            loggerService.setIsDebugMode(appConfig.isDebugMode());
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+            final var helpFormatter = new HelpFormatter();
+            helpFormatter.printHelp("following program args are allowed", CLI_OPTIONS);
+            System.exit(1);
+        }
+    }
+
+    private static void initDb() {
+        try {
+            dbSetup = new DBSetup(appConfig.getDbUser(), appConfig.getDbPass(), appConfig.getDbHost(),
+                    appConfig.getDbName(), loggerService);
+            humanInSpaceRepository = new HumanInSpaceMySqlRepository(humanInSpaceEntityMapper, loggerService, dbSetup);
+            peopleInSpaceService =
+                    new PeopleInSpaceService(openNotifyConnector, humanInSpaceRepository, humanInSpaceEntityMapper);
+            peopleInSpaceController = new PeopleInSpaceController(peopleInSpaceService, peopleInSpaceDtoViewMapper);
+        } catch (SQLException e) {
+            loggerService.logError("Setup of database connection failed!", e);
+            System.err.println("There is a problem with database connection, app cannot start...");
+            System.exit(1);
         }
     }
 
@@ -92,8 +150,11 @@ public class Main {
 
     private static void showPeopleInSpace() {
         try {
+            final var start = System.currentTimeMillis();
             final var peopleInSpaceInfo = peopleInSpaceController.getPeopleInSpaceInfo();
+            final var stop = System.currentTimeMillis();
             System.out.println(peopleInSpaceInfo.getInfoAboutPeopleInSpace());
+            System.out.println("Fetched in " + (stop - start) + " ms");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
