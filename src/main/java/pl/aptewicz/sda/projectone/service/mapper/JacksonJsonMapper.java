@@ -2,6 +2,7 @@ package pl.aptewicz.sda.projectone.service.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import pl.aptewicz.sda.projectone.dto.IssPassTimesDto;
 import pl.aptewicz.sda.projectone.dto.IssPositionDto;
 import pl.aptewicz.sda.projectone.dto.PeopleInSpaceDto;
 
@@ -24,6 +25,16 @@ public class JacksonJsonMapper implements JsonMapper {
         // ODO: implement mapping from jso to dot using Jackson lib
         try {
             return  this.objectMapper.readValue(json,IssPositionDto.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    @Override
+    public IssPassTimesDto mapIssPassTimesDtoFromJson(String json) {
+        try {
+            return  this.objectMapper.readValue(json,IssPassTimesDto.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new UnsupportedOperationException();

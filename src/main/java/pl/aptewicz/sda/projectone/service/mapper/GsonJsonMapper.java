@@ -1,6 +1,7 @@
 package pl.aptewicz.sda.projectone.service.mapper;
 
 import com.google.gson.Gson;
+import pl.aptewicz.sda.projectone.dto.IssPassTimesDto;
 import pl.aptewicz.sda.projectone.dto.IssPositionDto;
 import pl.aptewicz.sda.projectone.dto.PeopleInSpaceDto;
 
@@ -21,5 +22,14 @@ public class GsonJsonMapper implements JsonMapper {
             throw new UnsupportedOperationException();
         }
 
+    }
+
+    @Override
+    public IssPassTimesDto mapIssPassTimesDtoFromJson(String json) {
+        try{
+            return gson.fromJson(json,IssPassTimesDto.class);
+        }catch (Exception e){
+            throw new UnsupportedOperationException();
+        }
     }
 }
