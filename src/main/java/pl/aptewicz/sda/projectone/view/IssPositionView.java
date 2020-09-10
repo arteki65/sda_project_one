@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class IssPositionView {
@@ -31,6 +32,20 @@ public class IssPositionView {
         return issCurrentPositionView;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IssPositionView that = (IssPositionView) o;
+        return timestamp == that.timestamp &&
+                Objects.equals(issCurrentPositionView, that.issCurrentPositionView);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(timestamp, issCurrentPositionView);
+    }
+
     public static class IssCurrentPositionView {
 
         private final double longitude;
@@ -50,6 +65,18 @@ public class IssPositionView {
             return latitude;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            IssCurrentPositionView that = (IssCurrentPositionView) o;
+            return Double.compare(that.longitude, longitude) == 0 &&
+                    Double.compare(that.latitude, latitude) == 0;
+        }
 
+        @Override
+        public int hashCode() {
+            return Objects.hash(longitude, latitude);
+        }
     }
 }
