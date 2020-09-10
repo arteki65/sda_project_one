@@ -15,11 +15,13 @@ public class Main {
     // Creation of required objects - this can be done by frameworks like Spring or Guice
 //    private static final HttpClient httpClient =
 //            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
+
     private static final HttpClient httpClient = HttpClient.newHttpClient();
     private static final JsonMapper jsonMapper = new GsonJsonMapper();
     //private static final JsonMapper jsonMapper = new JacksonJsonMapper();
 
-    private static final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
+
+    private static OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
 
     private static final PeopleInSpaceDtoViewMapper peopleInSpaceDtoViewMapper = new PeopleInSpaceDtoViewMapper();
 
@@ -31,10 +33,10 @@ public class Main {
     private static final IssPositionController issPositionController =
             new IssPositionController(openNotifyConnector, issPositionDtoViewMapper);
 
-    private  static  final IssPassTimesDtoViewMapper issPassTimesDtoViewMapper = new IssPassTimesDtoViewMapper();
+    private static IssPassTimesDtoViewMapper issPassTimesDtoViewMapper = new IssPassTimesDtoViewMapper();
 
-    private  static  final IssPassTimesController issPassTimesControler =
-            new IssPassTimesController(openNotifyConnector,issPassTimesDtoViewMapper);
+    private static IssPassTimesController issPassTimesControler =
+            new IssPassTimesController(openNotifyConnector, issPassTimesDtoViewMapper);
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
@@ -54,9 +56,9 @@ public class Main {
                     waitForUserAcknowledge();
                     break;
                 case "3":
+                    positionParamets();
                     showIssPassTimes();
                     waitForUserAcknowledge();
-
                     break;
                 case "4":
                     programRunning = false;
@@ -78,14 +80,14 @@ public class Main {
         final var menu = "Choose menu option:\n" +
                 "1 - show people in space\n" +
                 "2 - show current location of ISS\n" +
-                "3 - show International Space Station Pass Times\n"+
+                "3 - show International Space Station Pass Times\n" +
                 "4 - exit";
         // @formatter:on
         System.out.println(menu);
     }
 
     private static void waitForUserAcknowledge() {
-        System.out.println("Press any key to continue...");
+        System.out.println("Press Enter to continue...");
         keyboardScanner.nextLine();
     }
 
@@ -98,12 +100,12 @@ public class Main {
         }
     }
 
-    private  static  void showIssPassTimes(){
-        try{
-            final var issPassTimesInfo = issPassTimesControler.getIssPassTimes();
+    private static void showIssPassTimes() {
+        try {
+            var issPassTimesInfo = issPassTimesControler.getIssPassTimes();
             System.out.println(issPassTimesInfo.ShowIssPassTimes());
-        }catch(Exception e){
-            System.err.println(e.getStackTrace());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
 
     }
@@ -117,5 +119,25 @@ public class Main {
         final var unknownOperationInfo =
                 String.format("\"%s\" option is unknown. Please specify one of the menu options!", chosenOption);
         System.err.println(unknownOperationInfo);
+    }
+
+    public static void positionParamets() {
+        //TODO why range is only from -72 to 71 should be -80..80??
+        System.out.println("enter a latitude value between ( -72 and 71 ): ");
+        double latitude = keyboardScanner.nextDouble();
+        System.out.println("enter a longtitude value between ( -180 and 180 ): ");
+        double longtitude = keyboardScanner.nextDouble();
+        openNotifyConnector.setLatitudeUser(latitude);
+        openNotifyConnector.setLongtitudeUser(longtitude);
+        overloadMethods(latitude, longtitude);
+        keyboardScanner.nextLine();
+
+    }
+
+    public static IssPassTimesController overloadMethods(double lat, double lon) {
+        openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper,lat,lon);
+        issPassTimesDtoViewMapper = new IssPassTimesDtoViewMapper();
+        issPassTimesControler = new IssPassTimesController(openNotifyConnector, issPassTimesDtoViewMapper);
+        return issPassTimesControler;
     }
 }
