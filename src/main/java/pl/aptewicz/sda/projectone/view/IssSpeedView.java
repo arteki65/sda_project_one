@@ -4,6 +4,7 @@ package pl.aptewicz.sda.projectone.view;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class IssSpeedView {
 
@@ -52,8 +53,16 @@ public class IssSpeedView {
         return rad * c;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IssSpeedView that = (IssSpeedView) o;
+        return Objects.equals(positions, that.positions);
+    }
 
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(positions);
+    }
 }

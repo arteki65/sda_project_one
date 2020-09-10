@@ -1,5 +1,6 @@
 package pl.aptewicz.sda.projectone.controller;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.stubbing.OngoingStubbing;
@@ -15,30 +16,30 @@ import java.util.Optional;
 public class IssSpeedControllerTest {
 
     @Test
-    public void shouldReturnCurrentISSSpeedViewWhenConnectorReturnData() {
+    public void shouldReturnCurrentISSSpeedViewWhenConnectorReturnData() throws Exception {
 
         //given
         OpenNotifyConnector openNotifyConnector = Mockito.mock(OpenNotifyConnector.class);
-        OngoingStubbing<Optional<IssPositionDto>> optionalOngoingStubbing1 = Mockito.when(openNotifyConnector.getIssPosition()).thenReturn(Optional.of(new IssPositionDto(new IssPositionDto.IssPosition(
-                123.123, 123.123), 45698745L)));
-        OngoingStubbing<Optional<IssPositionDto>> optionalOngoingStubbing2 = Mockito.when(openNotifyConnector.getIssPosition()).thenReturn(Optional.of(new IssPositionDto(new IssPositionDto.IssPosition(
+        Mockito.when(openNotifyConnector.getIssPosition())
+                .thenReturn(Optional.of(new IssPositionDto(new IssPositionDto.IssPosition(
+                123.123, 123.123), 45698745L)))
+                .thenReturn(Optional.of(new IssPositionDto(new IssPositionDto.IssPosition(
                 456.456, 456.456), 59874562L)));
+
         IssSpeedController issSpeedController = new IssSpeedController(openNotifyConnector, new IssPositionDtoViewMapper());
+
         IssSpeedView issSpeedViewExpected = new IssSpeedView(Arrays.asList(
                 new IssPositionView(45698745L,
-                new IssPositionView.IssCurrentPositionView(123.123, 123.123 )),
+                        new IssPositionView.IssCurrentPositionView(123.123, 123.123)),
                 new IssPositionView(59874562L,
-                new IssPositionView.IssCurrentPositionView(456.456, 456.456 ))));
+                        new IssPositionView.IssCurrentPositionView(456.456, 456.456))));
 
         //when
-
+        IssSpeedView issSpeedViewResult = issSpeedController.getIssSpeedView();
 
         //then
 
-
-
-
-
+        Assertions.assertEquals(issSpeedViewExpected, issSpeedViewResult);
 
 
     }
