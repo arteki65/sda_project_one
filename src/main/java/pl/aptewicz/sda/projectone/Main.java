@@ -1,5 +1,6 @@
 package pl.aptewicz.sda.projectone;
 
+import pl.aptewicz.sda.projectone.controller.IssPassTimesController;
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
@@ -15,8 +16,8 @@ public class Main {
 //    private static final HttpClient httpClient =
 //            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
     private static final HttpClient httpClient = HttpClient.newHttpClient();
-    //private static final JsonMapper jsonMapper = new GsonJsonMapper();
-    private static final JsonMapper jsonMapper = new JacksonJsonMapper();
+    private static final JsonMapper jsonMapper = new GsonJsonMapper();
+    //private static final JsonMapper jsonMapper = new JacksonJsonMapper();
 
     private static final OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);
 
@@ -29,6 +30,11 @@ public class Main {
 
     private static final IssPositionController issPositionController =
             new IssPositionController(openNotifyConnector, issPositionDtoViewMapper);
+
+    private  static  final IssPassTimesDtoViewMapper issPassTimesDtoViewMapper = new IssPassTimesDtoViewMapper();
+
+    private  static  final IssPassTimesController issPassTimesControler =
+            new IssPassTimesController(openNotifyConnector,issPassTimesDtoViewMapper);
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
@@ -48,6 +54,11 @@ public class Main {
                     waitForUserAcknowledge();
                     break;
                 case "3":
+                    showIssPassTimes();
+                    waitForUserAcknowledge();
+
+                    break;
+                case "4":
                     programRunning = false;
                     System.out.println("Good bye!");
                     break;
@@ -67,7 +78,8 @@ public class Main {
         final var menu = "Choose menu option:\n" +
                 "1 - show people in space\n" +
                 "2 - show current location of ISS\n" +
-                "3 - exit";
+                "3 - show International Space Station Pass Times\n"+
+                "4 - exit";
         // @formatter:on
         System.out.println(menu);
     }
@@ -84,6 +96,16 @@ public class Main {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    private  static  void showIssPassTimes(){
+        try{
+            final var issPassTimesInfo = issPassTimesControler.getIssPassTimes();
+            System.out.println(issPassTimesInfo.ShowIssPassTimes());
+        }catch(Exception e){
+            System.err.println(e.getStackTrace());
+        }
+
     }
 
     private static void showCurrentLocationOfISS() {

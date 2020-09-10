@@ -1,5 +1,6 @@
 package pl.aptewicz.sda.projectone.service.http;
 
+import pl.aptewicz.sda.projectone.dto.IssPassTimesDto;
 import pl.aptewicz.sda.projectone.dto.IssPositionDto;
 import pl.aptewicz.sda.projectone.dto.PeopleInSpaceDto;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
@@ -17,6 +18,9 @@ public class OpenNotifyConnector {
             HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/astros.json")).build();
     private static final HttpRequest request2 =
             HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/iss-now.json")).build();
+
+    private static final HttpRequest requestIpt =
+            HttpRequest.newBuilder().GET().uri(URI.create("http://api.open-notify.org/iss-pass.json?lat=-45.6753&lon=-52.4168")).build();
 
     private final HttpClient httpClient;
 
@@ -50,6 +54,19 @@ public class OpenNotifyConnector {
                 return Optional.empty();
 
         } catch (IOException | InterruptedException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<IssPassTimesDto> getIssPassTimes() {
+        try {
+            final var responseIpt = httpClient.send(requestIpt, HttpResponse.BodyHandlers.ofString());
+            if (responseIpt.statusCode() == 200) {
+                return Optional.ofNullable(jsonMapper.mapIssPassTimesDtoFromJson(responseIpt.body()));
+            }
+            return Optional.empty();
+        } catch (IOException | InterruptedException e) {
+            // add logging of exception
             return Optional.empty();
         }
     }
