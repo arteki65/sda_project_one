@@ -17,5 +17,6 @@ public class Main {
         //        final var openNotifyConnector = new OpenNotifyConnector(HttpResponse::body, httpClient);
         final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
         System.out.println(openNotifyConnector.getPeopleInSpace());
+        //wSystem.out.println(openNotifyConnector.getIssPosition());
     }
 }
