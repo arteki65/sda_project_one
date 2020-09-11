@@ -15,8 +15,12 @@ public class IssPositionController {
         this.mapper = mapper;
     }
 
-    public IssPositionView getIssPositionView() {
+    public IssPositionView getIssPositionView() throws Exception {
         // TODO: implement method like in PeopleInSpaceController
-        throw new UnsupportedOperationException();
+        final var result = this.openNotifyConnector.getIssPosition();
+        return result.map(mapper::mapIssPositionDtoToView)
+                .orElseThrow(() -> new Exception("Unable to get info about ISS position."));
+
+        //throw new UnsupportedOperationException();
     }
 }

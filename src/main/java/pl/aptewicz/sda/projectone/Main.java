@@ -89,8 +89,12 @@ public class Main {
     }
 
     private static void showCurrentLocationOfISS() {
-        final var issPositionView = issPositionController.getIssPositionView();
-        System.out.println(issPositionView.showIssLocation());
+        try {
+            final var issPositionView = issPositionController.getIssPositionView();
+            System.out.println(issPositionView.showIssLocation());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     private static void showUnknownOperationInfo(String chosenOption) {
