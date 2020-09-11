@@ -17,8 +17,8 @@ public class Main {
 //            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1).connectTimeout(Duration.ofSeconds(10)).build();
 
     private static final HttpClient httpClient = HttpClient.newHttpClient();
-    private static final JsonMapper jsonMapper = new GsonJsonMapper();
-    //private static final JsonMapper jsonMapper = new JacksonJsonMapper();
+    //private static final JsonMapper jsonMapper = new GsonJsonMapper();
+    private static final JsonMapper jsonMapper = new JacksonJsonMapper();
 
 
     private static OpenNotifyConnector openNotifyConnector = new OpenNotifyConnector(httpClient, jsonMapper);

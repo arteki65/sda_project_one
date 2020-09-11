@@ -44,8 +44,7 @@ public class OpenNotifyConnector implements Comparable<URI> {
     public OpenNotifyConnector(HttpClient httpClient, JsonMapper jsonMapper) {
         this.httpClient = httpClient;
         this.jsonMapper = jsonMapper;
-//        userRequest = String.format("http://api.open-notify.org/iss-pass.json?lat=%.4f&lon=%.4f&alt=10&n=4",this.latitudeUser,this.longtitudeUser);
-//        requestIpt = HttpRequest.newBuilder().GET().uri(URI.create(userRequest)).build();
+
     }
 
     public void setLatitudeUser(double latitudeUser) {
@@ -85,9 +84,6 @@ public class OpenNotifyConnector implements Comparable<URI> {
 
     public Optional<IssPassTimesDto> getIssPassTimes() {
         try {
-//             final HttpRequest requestIpt =
-//                    HttpRequest.newBuilder().GET().uri(URI.create(userRequest)).build();
-
             final var responseIpt = httpClient.send(requestIpt, HttpResponse.BodyHandlers.ofString());
             if (responseIpt.statusCode() == 200) {
                 return Optional.ofNullable(jsonMapper.mapIssPassTimesDtoFromJson(responseIpt.body()));
