@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class HumanInSpaceMySqlRepository implements HumanInSpaceRepository {
     private static final String TABLE = "human_in_space";
@@ -33,10 +32,10 @@ public class HumanInSpaceMySqlRepository implements HumanInSpaceRepository {
             getConnection().setAutoCommit(false);
 
             for (final var entity : peopleInSpace) {
-                ps.setString(1, UUID.randomUUID().toString());
+                ps.setString(1, entity.getId().toString());
                 ps.setString(2, entity.getName());
                 ps.setString(3, entity.getCraft());
-                ps.setLong(4, Instant.now().getEpochSecond() + (60 * 60 * 24));
+                ps.setLong(4, entity.getExpTime());
                 ps.execute();
             }
 

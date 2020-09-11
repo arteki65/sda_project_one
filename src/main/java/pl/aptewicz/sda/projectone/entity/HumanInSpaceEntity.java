@@ -1,13 +1,21 @@
 package pl.aptewicz.sda.projectone.entity;
 
+import java.util.UUID;
+
 public class HumanInSpaceEntity {
+    private final UUID id;
+
     private final String craft;
 
     private final String name;
 
-    public HumanInSpaceEntity(String craft, String name) {
+    private final long expTime;
+
+    public HumanInSpaceEntity(UUID id, String craft, String name, long expTime) {
+        this.id = id;
         this.craft = craft;
         this.name = name;
+        this.expTime = expTime;
     }
 
     public String getCraft() {
@@ -16,6 +24,14 @@ public class HumanInSpaceEntity {
 
     public String getName() {
         return name;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public long getExpTime() {
+        return expTime;
     }
 
     @Override
