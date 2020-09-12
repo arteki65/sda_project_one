@@ -1,48 +1,38 @@
 package pl.aptewicz.sda.projectone.entity;
 
-import java.util.List;
+import java.util.UUID;
 
 public class IssPositionEntity {
 
-    private final long id;
-    private final List<IssCurrentPositionEntity> issPositionEntity;
+    // TODO: (workbench) create sql statement for table (iss_position) createion
+    private final UUID id;
+
+    private final double longitude;
+
+    private final double latitude;
+
     private final long timestamp;
 
-    public IssPositionEntity(long id, List<IssCurrentPositionEntity> issPositionEntity, long timestamp) {
+    public IssPositionEntity(UUID id, double longitude, double latitude, long timestamp) {
         this.id = id;
-        this.issPositionEntity = issPositionEntity;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.timestamp = timestamp;
     }
 
-
-    public long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public List<IssCurrentPositionEntity> getIssPositionEntity() {
-        return issPositionEntity;
     }
 
     public long getTimestamp() {
         return timestamp;
     }
 
+    public double getLongitude() {
+        return longitude;
+    }
 
-    public static class IssCurrentPositionEntity {
-        private final double longitude;
-        private final double latitude;
-
-        public IssCurrentPositionEntity(double longitude, double latitude) {
-            this.longitude = longitude;
-            this.latitude = latitude;
-            }
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
+    public double getLatitude() {
+        return latitude;
     }
 }

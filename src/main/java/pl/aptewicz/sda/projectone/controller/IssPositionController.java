@@ -1,11 +1,9 @@
 package pl.aptewicz.sda.projectone.controller;
 
-import pl.aptewicz.sda.projectone.dto.IssPositionDto;
+import pl.aptewicz.sda.projectone.service.IssPositionService;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.view.IssPositionView;
-
-import java.util.Optional;
 
 public class IssPositionController {
 
@@ -13,14 +11,18 @@ public class IssPositionController {
 
     protected final IssPositionDtoViewMapper mapper;
 
-    public IssPositionController(OpenNotifyConnector openNotifyConnector, IssPositionDtoViewMapper mapper) {
+    private final IssPositionService issPositionService;
+
+    public IssPositionController(OpenNotifyConnector openNotifyConnector, IssPositionDtoViewMapper mapper,
+                                 IssPositionService issPositionService) {
         this.openNotifyConnector = openNotifyConnector;
         this.mapper = mapper;
+        this.issPositionService = issPositionService;
     }
 
     public IssPositionView getIssPositionView() throws Exception {
-        final Optional<IssPositionDto>  issPositionDto = openNotifyConnector.getIssPosition();
+        final var issPositionDto = issPositionService.getIssPosition();
 
-        return mapper.mapToView(issPositionDto.orElseThrow(() -> new Exception("Can get current Position")));
+        return mapper.mapToView(issPositionDto);
     }
 }

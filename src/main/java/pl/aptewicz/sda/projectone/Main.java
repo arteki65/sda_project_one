@@ -9,17 +9,14 @@ import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.db.DBSetup;
 import pl.aptewicz.sda.projectone.repository.HumanInSpaceMySqlRepository;
 import pl.aptewicz.sda.projectone.repository.HumanInSpaceRepository;
+import pl.aptewicz.sda.projectone.service.IssPositionService;
 import pl.aptewicz.sda.projectone.service.PeopleInSpaceService;
 import pl.aptewicz.sda.projectone.service.cli.CliArgsParser;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
-import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
-import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
-import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
-import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
+import pl.aptewicz.sda.projectone.service.logger.LoggerService;
+import pl.aptewicz.sda.projectone.service.mapper.*;
 import pl.aptewicz.sda.projectone.view.IssPositionView;
 import pl.aptewicz.sda.projectone.view.IssSpeedView;
-import pl.aptewicz.sda.projectone.service.logger.LoggerService;
-import pl.aptewicz.sda.projectone.service.mapper.HumanInSpaceEntityMapper;
 
 import java.net.http.HttpClient;
 import java.sql.SQLException;
@@ -47,11 +44,14 @@ public class Main {
 
     private static final IssPositionDtoViewMapper issPositionDtoViewMapper = new IssPositionDtoViewMapper();
 
+    private static final IssPositionService issPositionService = new IssPositionService(openNotifyConnector,
+            (entity) -> {throw new UnsupportedOperationException();}, new IssPositionEntityMapper());
+
     private static final IssPositionController issPositionController =
-            new IssPositionController(openNotifyConnector, issPositionDtoViewMapper);
+            new IssPositionController(openNotifyConnector, issPositionDtoViewMapper, issPositionService);
 
     private static final IssSpeedController issSpeedController = new IssSpeedController(openNotifyConnector,
-            issPositionDtoViewMapper);
+            issPositionDtoViewMapper, issPositionService);
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
@@ -165,10 +165,8 @@ public class Main {
             final IssPositionView issPositionView = issPositionController.getIssPositionView();
             System.out.println(issPositionView.showIssLocation());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-
+            System.err.println(e.getMessage());
         }
-
     }
 
     private static void showCurrentISSSpeed() {
