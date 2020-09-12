@@ -1,12 +1,15 @@
 package pl.aptewicz.sda.projectone;
 
 import pl.aptewicz.sda.projectone.controller.IssPositionController;
+import pl.aptewicz.sda.projectone.controller.IssSpeedController;
 import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.GsonJsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionDtoViewMapper;
 import pl.aptewicz.sda.projectone.service.mapper.JsonMapper;
 import pl.aptewicz.sda.projectone.service.mapper.PeopleInSpaceDtoViewMapper;
+import pl.aptewicz.sda.projectone.view.IssPositionView;
+import pl.aptewicz.sda.projectone.view.IssSpeedView;
 
 import java.net.http.HttpClient;
 import java.time.Duration;
@@ -32,6 +35,9 @@ public class Main {
     private static final IssPositionController issPositionController =
             new IssPositionController(openNotifyConnector, issPositionDtoViewMapper);
 
+    private static final IssSpeedController issSpeedController = new IssSpeedController(openNotifyConnector,
+            issPositionDtoViewMapper);
+
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -50,6 +56,10 @@ public class Main {
                     waitForUserAcknowledge();
                     break;
                 case "3":
+                    showCurrentISSSpeed();
+                    waitForUserAcknowledge();
+                    break;
+                case "4":
                     programRunning = false;
                     System.out.println("Good bye!");
                     break;
@@ -69,7 +79,8 @@ public class Main {
         final var menu = "Choose menu option:\n" +
                 "1 - show people in space\n" +
                 "2 - show current location of ISS\n" +
-                "3 - exit";
+                "3 - show the current ISS speed\n" +
+                "4 - exit";
         // @formatter:on
         System.out.println(menu);
     }
@@ -89,8 +100,25 @@ public class Main {
     }
 
     private static void showCurrentLocationOfISS() {
-        final var issPositionView = issPositionController.getIssPositionView();
-        System.out.println(issPositionView.showIssLocation());
+        try {
+            final IssPositionView issPositionView = issPositionController.getIssPositionView();
+            System.out.println(issPositionView.showIssLocation());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+
+    private static void showCurrentISSSpeed() {
+
+        try {
+            final IssSpeedView issSpeedView = issSpeedController.getIssSpeedView();
+            System.out.println(issSpeedView.showISSSpeed());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     private static void showUnknownOperationInfo(String chosenOption) {
