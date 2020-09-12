@@ -1,23 +1,48 @@
 package pl.aptewicz.sda.projectone.view;
 
-import java.util.List;
-import java.util.stream.Collectors;
+
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.TimeZone;
+
 
 public class IssPositionView {
 
-    private final long timestamp;
+    private long timestamp;
 
-    private final List<IssCurrentPositionView> issPositionView;
+    private IssCurrentPositionView issPositionView;
 
-    public IssPositionView(long timestamp, List<IssCurrentPositionView> issPositionView) {
+
+
+
+    public IssPositionView(long timestamp, IssCurrentPositionView issPositionView) {
         this.timestamp = timestamp;
         this.issPositionView = issPositionView;
     }
+
+
+
+
     public String showIssLocation() {
-        return String.format("Currently the ISS is  %d :\n%s", this.timestamp, this.issPositionView.stream()
-                .map(issCurrentPositionView -> issCurrentPositionView.getLatitude() + " on longitude" + issCurrentPositionView.getLongitude() + "\n")
-                .collect(Collectors.joining()));
+
+        return String.format("Currently the ISS is: \n  Data :  %S \n  on longitude:  %s ", TimestampToDate(timestamp),
+                this.issPositionView.getLongitude()
+                + "\n  on latitude :  " + this.issPositionView.getLatitude() + "");
     }
+
+     public LocalDateTime TimestampToDate(Long timestamp) {
+//        Timestamp ts = new Timestamp(System.currentTimeMillis());
+//         LocalDate localDateTs = ts.toLocalDateTime().toLocalDate();
+//        return  localDateTs;
+         LocalDateTime IssData = LocalDateTime.ofInstant(Instant.ofEpochSecond(timestamp), TimeZone
+                 .getDefault().toZoneId());
+         return  IssData;
+     }
+
 
     public static class IssCurrentPositionView {
 
