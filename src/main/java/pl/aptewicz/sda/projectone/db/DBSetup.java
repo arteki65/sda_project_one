@@ -16,7 +16,7 @@ public class DBSetup {
             throws SQLException {
         this.loggerService = loggerService;
         this.dbConnection = DriverManager
-                .getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s", dbHost, dbName, dbUser, dbPass));
+                .getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s&serverTimezone=GMT", dbHost, dbName, dbUser, dbPass));
     }
 
     public Connection getDbConnection() {
