@@ -9,6 +9,8 @@ import pl.aptewicz.sda.projectone.controller.PeopleInSpaceController;
 import pl.aptewicz.sda.projectone.db.DBSetup;
 import pl.aptewicz.sda.projectone.repository.HumanInSpaceMySqlRepository;
 import pl.aptewicz.sda.projectone.repository.HumanInSpaceRepository;
+import pl.aptewicz.sda.projectone.repository.IssPositionMySqlRepository;
+import pl.aptewicz.sda.projectone.repository.IssPositionRepository;
 import pl.aptewicz.sda.projectone.service.IssPositionService;
 import pl.aptewicz.sda.projectone.service.PeopleInSpaceService;
 import pl.aptewicz.sda.projectone.service.cli.CliArgsParser;
@@ -42,16 +44,9 @@ public class Main {
 
     private static final HumanInSpaceEntityMapper humanInSpaceEntityMapper = new HumanInSpaceEntityMapper();
 
+    private static final IssPositionEntityMapper issPositionEntityMapper = new IssPositionEntityMapper();
+
     private static final IssPositionDtoViewMapper issPositionDtoViewMapper = new IssPositionDtoViewMapper();
-
-    private static final IssPositionService issPositionService = new IssPositionService(openNotifyConnector,
-            (entity) -> {throw new UnsupportedOperationException();}, new IssPositionEntityMapper());
-
-    private static final IssPositionController issPositionController =
-            new IssPositionController(openNotifyConnector, issPositionDtoViewMapper, issPositionService);
-
-    private static final IssSpeedController issSpeedController = new IssSpeedController(openNotifyConnector,
-            issPositionDtoViewMapper, issPositionService);
 
     private static final Scanner keyboardScanner = new Scanner(System.in);
 
@@ -61,9 +56,17 @@ public class Main {
 
     private static HumanInSpaceRepository humanInSpaceRepository;
 
+    private static IssPositionRepository issPositionRepository;
+
     private static PeopleInSpaceService peopleInSpaceService;
 
+    private static IssPositionService issPositionService;
+
     private static PeopleInSpaceController peopleInSpaceController;
+
+    private static IssPositionController issPositionController;
+
+    private static IssSpeedController issSpeedController;
 
     private static AppConfig appConfig;
     // @formatter:on
@@ -116,10 +119,22 @@ public class Main {
         try {
             dbSetup = new DBSetup(appConfig.getDbUser(), appConfig.getDbPass(), appConfig.getDbHost(),
                     appConfig.getDbName(), loggerService);
+
             humanInSpaceRepository = new HumanInSpaceMySqlRepository(humanInSpaceEntityMapper, loggerService, dbSetup);
-            peopleInSpaceService =
-                    new PeopleInSpaceService(openNotifyConnector, humanInSpaceRepository, humanInSpaceEntityMapper);
+
+            peopleInSpaceService = new PeopleInSpaceService(openNotifyConnector, humanInSpaceRepository, humanInSpaceEntityMapper);
+
             peopleInSpaceController = new PeopleInSpaceController(peopleInSpaceService, peopleInSpaceDtoViewMapper);
+
+            issPositionRepository = new IssPositionMySqlRepository(dbSetup, loggerService);
+
+            issPositionService = new IssPositionService(openNotifyConnector, issPositionRepository, issPositionEntityMapper);
+
+            issPositionController = new IssPositionController(openNotifyConnector, issPositionDtoViewMapper, issPositionService);
+
+
+
+
         } catch (SQLException e) {
             loggerService.logError("Setup of database connection failed!", e);
             System.err.println("There is a problem with database connection, app cannot start...");
