@@ -29,7 +29,8 @@ public class OpenNotifyConnector {
 
     public Optional<PeopleInSpaceDto> getPeopleInSpace() {
         try {
-            final var response = httpClient.send(getPeopleInSpaceRequest, HttpResponse.BodyHandlers.ofString());
+            final var response = httpClient.send(getPeopleInSpaceRequest, HttpResponse.BodyHandlers.ofString()); //nie wiem co robi HttpResponse.BodyHandlers.ofString() - zamiennia na Stringa ?
+                // final var response to  -> final HttpResponse<String> response
             if (response.statusCode() == 200) {
                 return Optional.ofNullable(jsonMapper.mapPeopleInSpaceFromJson(response.body()));
             }

@@ -98,7 +98,7 @@ public class Main {
                 String.format("\"%s\" option is unknown. Please specify one of the menu options!", chosenOption);
         System.err.println(unknownOperationInfo);
         //        final var openNotifyConnector = new OpenNotifyConnector(HttpResponse::body, httpClient);
-        final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
+       final var openNotifyConnector = new OpenNotifyConnector(new JsonResponseFormatter(), httpClient);
         System.out.println(openNotifyConnector.getPeopleInSpace());
         //wSystem.out.println(openNotifyConnector.getIssPosition());
     }
