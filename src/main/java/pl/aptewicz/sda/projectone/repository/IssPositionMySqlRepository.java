@@ -21,14 +21,14 @@ public class IssPositionMySqlRepository implements IssPositionRepository {
 
     @Override
     public void saveIssPosition(IssPositionEntity entity) {
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO" + TABLE + "VALUES (?, ?, ?, ?)")) {
-
+        try {
+            PreparedStatement preparedStatement = getConnection().prepareStatement("INSERT INTO iss_position VALUES (?, ?, ?, ?)");
             preparedStatement.setString(1, entity.getId().toString());
             preparedStatement.setDouble(2, entity.getLongitude());
             preparedStatement.setDouble(3, entity.getLatitude());
             preparedStatement.setLong(4, entity.getTimestamp());
-            preparedStatement.execute();
-            dbSetup.closeDbConnection();
+            preparedStatement.executeUpdate();
+
 
         } catch (SQLException throwables) {
             loggerService.logError("Can't save to database", throwables);
