@@ -17,7 +17,7 @@ public class CliUsageConfig {
 
     static {
         CLI_OPTIONS = new Options();
-        CLI_OPTIONS.addOption("d", DEBUG, false, "set debug mode which prints all stack traces");
+        CLI_OPTIONS.addOption(DEBUG, DEBUG, false, "set debug mode which prints all stack traces");
         CLI_OPTIONS.addOption(DB_USER, DB_USER, true, "database user");
         CLI_OPTIONS.addOption(DB_PASS, DB_PASS, true, "database password");
         CLI_OPTIONS.addOption(DB_HOST, DB_HOST, true, "database host");

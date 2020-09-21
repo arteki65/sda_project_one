@@ -31,7 +31,7 @@ public class HumanInSpaceMySqlRepository implements HumanInSpaceRepository {
         try (final var ps = getConnection().prepareStatement("INSERT INTO " + TABLE + " VALUES(?, ?, ?, ?)")) {
             getConnection().setAutoCommit(false);
 
-            for (final var entity : peopleInSpace) {
+            for (final HumanInSpaceEntity entity : peopleInSpace) {
                 ps.setString(1, entity.getId().toString());
                 ps.setString(2, entity.getName());
                 ps.setString(3, entity.getCraft());

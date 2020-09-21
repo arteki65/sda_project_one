@@ -16,11 +16,13 @@ public class CliArgsParser {
 
     public AppConfig parseAppConfig(String... args) throws ParseException {
         final var cmd = cmdParser.parse(CliUsageConfig.CLI_OPTIONS, args);
-        return new AppConfig(cmd.hasOption(DEBUG),
+        return new AppConfig(
+                cmd.hasOption(DEBUG),
                 Optional.ofNullable(cmd.getOptionValue(DB_USER)).orElseThrow(() -> cmdArgMissing(DB_USER)),
                 Optional.ofNullable(cmd.getOptionValue(DB_PASS)).orElseThrow(() -> cmdArgMissing(DB_PASS)),
                 Optional.ofNullable(cmd.getOptionValue(DB_NAME)).orElseThrow(() -> cmdArgMissing(DB_NAME)),
-                Optional.ofNullable(cmd.getOptionValue(DB_HOST)).orElseThrow(() -> cmdArgMissing(DB_HOST)));
+                Optional.ofNullable(cmd.getOptionValue(DB_HOST)).orElseThrow(() -> cmdArgMissing(DB_HOST))
+        );
     }
 
     private ParseException cmdArgMissing(String cmdArg) {

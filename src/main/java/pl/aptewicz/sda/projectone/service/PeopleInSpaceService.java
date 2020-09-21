@@ -48,5 +48,6 @@ public class PeopleInSpaceService {
         });
         // @formatter:on
         return result.orElseThrow(() -> new Exception("Unable to get info about people in space."));
+
     }
 }

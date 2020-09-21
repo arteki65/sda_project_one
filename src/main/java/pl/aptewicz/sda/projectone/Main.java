@@ -21,6 +21,7 @@ import pl.aptewicz.sda.projectone.view.IssSpeedView;
 import java.net.http.HttpClient;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static pl.aptewicz.sda.projectone.config.CliUsageConfig.CLI_OPTIONS;
@@ -69,6 +70,7 @@ public class Main {
     // @formatter:on
 
     public static void main(String[] args) {
+
         initAppConfig(args);
         initDb();
         showAppTitle();
@@ -185,4 +187,5 @@ public class Main {
                 String.format("\"%s\" option is unknown. Please specify one of the menu options!", chosenOption);
         System.err.println(unknownOperationInfo);
     }
+
 }
