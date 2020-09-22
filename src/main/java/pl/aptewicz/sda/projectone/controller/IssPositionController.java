@@ -11,7 +11,7 @@ public class IssPositionController {
 
     protected final IssPositionDtoViewMapper mapper;
 
-    private final IssPositionService issPositionService;
+    protected final IssPositionService issPositionService;
 
     public IssPositionController(OpenNotifyConnector openNotifyConnector, IssPositionDtoViewMapper mapper,
                                  IssPositionService issPositionService) {

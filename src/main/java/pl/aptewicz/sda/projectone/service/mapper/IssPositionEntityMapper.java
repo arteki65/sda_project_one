@@ -12,4 +12,10 @@ public class IssPositionEntityMapper {
         return new IssPositionEntity(UUID.randomUUID(), dto.getIssPosition().getLongitude(),
                 dto.getIssPosition().getLatitude(), dto.getTimestamp());
     }
+
+    public IssPositionDto mapFromEntity(IssPositionEntity entity) {
+
+        return new IssPositionDto(new IssPositionDto.IssPosition(entity.getLongitude(), entity.getLatitude()),
+                entity.getTimestamp());
+    }
 }

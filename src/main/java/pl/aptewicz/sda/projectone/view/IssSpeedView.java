@@ -16,13 +16,13 @@ public class IssSpeedView {
 
     public String showISSSpeed() {
 
-        double longitude1 = positions.get(0).getIssCurrentPositionView().getLongitude();
-        double latitude1 = positions.get(0).getIssCurrentPositionView().getLatitude();
-        LocalDateTime timestamp1 = positions.get(0).getTimestamp();
+        double longitude1 = positions.get(1).getIssCurrentPositionView().getLongitude();
+        double latitude1 = positions.get(1).getIssCurrentPositionView().getLatitude();
+        LocalDateTime timestamp1 = positions.get(1).getTimestamp();
 
-        double longitude2 = positions.get(1).getIssCurrentPositionView().getLongitude();
-        double latitude2 = positions.get(1).getIssCurrentPositionView().getLatitude();
-        LocalDateTime timestamp2 = positions.get(1).getTimestamp();
+        double longitude2 = positions.get(0).getIssCurrentPositionView().getLongitude();
+        double latitude2 = positions.get(0).getIssCurrentPositionView().getLatitude();
+        LocalDateTime timestamp2 = positions.get(0).getTimestamp();
 
 
         long timeElapsed = Duration.between(timestamp1, timestamp2).getSeconds();

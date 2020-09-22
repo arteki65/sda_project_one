@@ -6,15 +6,17 @@ import pl.aptewicz.sda.projectone.repository.IssPositionRepository;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
 import pl.aptewicz.sda.projectone.service.mapper.IssPositionEntityMapper;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class IssPositionService {
 
-    private final OpenNotifyConnector openNotifyConnector;
+    protected final OpenNotifyConnector openNotifyConnector;
 
-    private final IssPositionRepository issPositionRepository;
+    protected final IssPositionRepository issPositionRepository;
 
-    private final IssPositionEntityMapper issPositionEntityMapper;
+    protected final IssPositionEntityMapper issPositionEntityMapper;
 
     public IssPositionService(OpenNotifyConnector openNotifyConnector, IssPositionRepository issPositionRepository,
                               IssPositionEntityMapper issPositionEntityMapper) {
@@ -35,6 +37,18 @@ public class IssPositionService {
         // get iss position from internet using openNotifyConnector
         // if success then save result in db using repository
         // return dto to controller or throw exception
+
         return issPositionDto.orElseThrow(() -> new Exception("Can't get ISS Position, try later "));
     }
+
+    public List<IssPositionDto> getIssPositions() {
+
+        List<IssPositionEntity> issPosition = issPositionRepository.getIssPosition();
+
+        return issPosition.stream().map(issPositionEntityMapper::mapFromEntity).collect(Collectors.toList());
+
+    }
+
+
+
 }

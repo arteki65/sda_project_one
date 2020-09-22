@@ -6,11 +6,14 @@ import pl.aptewicz.sda.projectone.service.logger.LoggerService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class IssPositionMySqlRepository implements IssPositionRepository {
 
-    private final String TABLE = "iss_position";
     private final DBSetup dbSetup;
     private final LoggerService loggerService;
 
@@ -36,6 +39,35 @@ public class IssPositionMySqlRepository implements IssPositionRepository {
         }
 
 
+    }
+
+    @Override
+    public List<IssPositionEntity> getIssPosition() {
+
+        List<IssPositionEntity> issPositionEntities = new ArrayList<>();
+        try {
+            PreparedStatement ps = getConnection()
+                    .prepareStatement("SELECT * FROM iss_position ORDER by timestamp DESC LIMIT 2");
+
+            ResultSet resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+            IssPositionEntity issPositionEntity =
+                    new IssPositionEntity(UUID.fromString(resultSet.getString("id")),
+                            resultSet.getDouble("longitude"),
+                            resultSet.getDouble("latitude"),
+                            resultSet.getLong("timestamp"));
+            issPositionEntities.add(issPositionEntity);
+
+            }
+
+        } catch (SQLException e) {
+            loggerService.logError("Can't get ISSPosition", e);
+
+        }
+
+
+        return issPositionEntities;
     }
 
     private Connection getConnection() {

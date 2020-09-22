@@ -12,6 +12,7 @@ import pl.aptewicz.sda.projectone.repository.HumanInSpaceRepository;
 import pl.aptewicz.sda.projectone.repository.IssPositionMySqlRepository;
 import pl.aptewicz.sda.projectone.repository.IssPositionRepository;
 import pl.aptewicz.sda.projectone.service.IssPositionService;
+import pl.aptewicz.sda.projectone.service.IssSpeedService;
 import pl.aptewicz.sda.projectone.service.PeopleInSpaceService;
 import pl.aptewicz.sda.projectone.service.cli.CliArgsParser;
 import pl.aptewicz.sda.projectone.service.http.OpenNotifyConnector;
@@ -62,6 +63,8 @@ public class Main {
     private static PeopleInSpaceService peopleInSpaceService;
 
     private static IssPositionService issPositionService;
+
+    private static IssSpeedService issSpeedService;
 
     private static PeopleInSpaceController peopleInSpaceController;
 
@@ -134,8 +137,9 @@ public class Main {
 
             issPositionController = new IssPositionController(openNotifyConnector, issPositionDtoViewMapper, issPositionService);
 
+            issSpeedService = new IssSpeedService(openNotifyConnector, issPositionRepository, issPositionEntityMapper);
 
-
+            issSpeedController = new IssSpeedController(openNotifyConnector, issPositionDtoViewMapper, issPositionService);
 
         } catch (SQLException e) {
             loggerService.logError("Setup of database connection failed!", e);
